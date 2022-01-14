@@ -1,20 +1,13 @@
 import React from "react";
 
-import { useSnackbar } from "notistack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
 import { styles } from ".";
 import database from "../../source/database";
 
-const NotesContainer = () => {
-  const { enqueueSnackbar } = useSnackbar();
-
+const NotesContainer = ({ editNote }) => {
   const [value, setValue] = React.useState("Controlled");
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
 
   return (
     <div className={styles.notes}>
@@ -22,10 +15,10 @@ const NotesContainer = () => {
         My Notes
       </Typography>
       <div>
-        {database.map((x) => (
-          <main key={x.id}>
-            <Typography>{x.title || x.content}</Typography>
-            <Typography>{x.content}</Typography>
+        {database.map(({ id, title, content }) => (
+          <main key={id} onClick={editNote(id)}>
+            <Typography>{title || content}</Typography>
+            <Typography>{content}</Typography>
           </main>
         ))}
       </div>

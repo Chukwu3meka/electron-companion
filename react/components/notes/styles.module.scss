@@ -2,8 +2,8 @@
 
 .notes {
   height: 100%;
+  width: 421px;
   overflow-y: auto;
-  width: 430px;
   & > div {
     padding: 0 5px;
     @include flexCenter(row, initial);
