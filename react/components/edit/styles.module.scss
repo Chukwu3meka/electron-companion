@@ -1,16 +1,20 @@
 @import "../../source/_variables";
 
 .edit {
+  // overflow: hidden;
+  // height: calc(100vh - 30px);
+  height: 100%;
   @include flexCenter(column, initial);
-
+  gap: 20px;
+  // box-sizing: border-box;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 20px;
+  padding: 10px;
   min-width: 400px;
   // width: max-content;
   // max-width: 70vw;
   flex-grow: 1;
-  overflow: auto;
+  // overflow: auto;
   // width: 99%;
   border: 3px solid green;
 }

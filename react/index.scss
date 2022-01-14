@@ -1,22 +1,13 @@
+@import "./source/_variables";
+
 body {
   margin: 0;
 }
+
 .note {
-  min-height: 100vh;
-  border: 3px solid red;
-  display: flex;
-  flex-direction: column;
-  flex-direction: row;
-  flex-wrap: wrap;
-  // justify-content: stretch;
   width: 100vw;
-  box-sizing: border-box;
-  // align-items: stretch;
-  & > div:nth-of-type(1) {
-    padding: 10px;
-    // width: 100%;
-    min-width: 300px;
-    max-width: 600px;
-    border: 3px solid blue;
-  }
+  height: 100vh;
+  @include flexCenter(row);
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
