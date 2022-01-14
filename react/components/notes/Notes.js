@@ -1,5 +1,5 @@
-const EditNote = () => {
-  return "EditNote";
+const Notes = () => {
+  return "Notes";
 };
 
-export default EditNote;
+export default Notes;
