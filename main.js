@@ -1,7 +1,7 @@
 const { BrowserWindow, app, ipcMain, Notification } = require("electron");
 const path = require("path");
 // require("./ipcEvents").ipcEvents();
-const isDev = !app.isPackaged;
+const isDev = require("electron-is-dev");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -22,6 +22,8 @@ function createWindow() {
   win.maximize();
   win.show();
   win.loadFile("index.html");
+  // and load the index.html of the app.
+  // win.loadURL(isDev ? "http://localhost:3000" : `file://${path.join(__dirname, "../build/index.html")}`);
 }
 
 if (isDev) {
