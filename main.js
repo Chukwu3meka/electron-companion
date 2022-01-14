@@ -1,12 +1,16 @@
 const { BrowserWindow, app, ipcMain, Notification } = require("electron");
 const path = require("path");
+// require("./ipcEvents").ipcEvents();
+require("./ipcEvents");
+const isDev = !app.isPackaged;
 
 function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
+    show: false,
     backgroundColor: "white",
-    // autoHideMenuBar: true,
+    // fullscreen: true,
     webPreferences: {
       nodeIntegration: false,
       worldSafeExecuteJavaScript: true,
@@ -15,28 +19,27 @@ function createWindow() {
     },
   });
 
+  win.maximize();
+  win.show();
   win.loadFile("index.html");
 }
 
-// require("electron-reload")(__dirname, {
-//   electron: path.join(__dirname, "node_modules", ".bin", "electron"),
-// });
+if (isDev) {
+  try {
+    require("electron-reloader")(module);
+  } catch {}
+}
 
-try {
-  require("electron-reloader")(module);
-} catch (_) {}
+app.whenReady().then(() => {
+  createWindow();
 
-app.whenReady().then(createWindow);
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
 
-//example to display notification
-ipcMain.on(
-  "notify",
-  (_, message) => {
-    new Notification({ title: "Notification", body: message }).show();
-  },
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") app.quit();
+});
 
-  "save",
-  (e, note) => {
-    console.log(note);
-  }
-);
+require("./ipcEvents")();

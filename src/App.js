@@ -1,21 +1,20 @@
 import React from "react";
 
-const App = () => {
+export default function App() {
   return (
     <>
-      <h1>dsfsdaaa111</h1>
+      <h1>I am App !!!</h1>
+
       <button
         onClick={() => {
           // ipcRenderer.send("save_note", "dfassdf");
-          console.log("dsd");
+          // console.log("dsd");
           // electron.notificationApi.sendNotification("my cus noti");
           electron.notesApi.saveNote("My custom message!");
           // electron.notificationApi.sendNotification("My custom message!");
         }}>
         Notify
-      </button>{" "}
+      </button>
     </>
   );
-};
-
-export default App;
+}

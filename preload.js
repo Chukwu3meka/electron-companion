@@ -4,7 +4,7 @@ contextBridge.exposeInMainWorld("electron", {
   notesApi: {
     saveNote(e) {
       console.log("ASsa", e);
-      ipcRenderer.send("notify", e);
+      ipcRenderer.send("save", e);
     },
   },
   notificationApi: {
