@@ -1,14 +1,23 @@
 import React from "react";
+
+import TextField from "@mui/material/TextField";
+
 import { useSnackbar } from "notistack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
+
+import EditNoteContainer from "./components/edit";
+
 export default function App() {
   const { enqueueSnackbar } = useSnackbar();
 
   return (
     <div className="note">
       <div>
+        <Typography variant="body2" component="h1" gutterBottom>
+          My Notes
+        </Typography>
         <h1>I am App !!!</h1>
         <button
           onClick={() => {
@@ -23,13 +32,7 @@ export default function App() {
           Notify
         </button>
       </div>
-      <div>
-        <Box sx={{ my: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Create React App example
-          </Typography>
-        </Box>
-      </div>
+      <EditNoteContainer />
     </div>
   );
 }

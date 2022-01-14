@@ -1,0 +1,16 @@
+@import "../../source/_variables";
+
+.edit {
+  @include flexCenter(column, initial);
+
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 20px;
+  min-width: 400px;
+  // width: max-content;
+  // max-width: 70vw;
+  flex-grow: 1;
+  overflow: auto;
+  // width: 99%;
+  border: 3px solid green;
+}
