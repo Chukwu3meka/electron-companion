@@ -1,7 +1,6 @@
 const { BrowserWindow, app, ipcMain, Notification } = require("electron");
 const path = require("path");
 // require("./ipcEvents").ipcEvents();
-require("./ipcEvents");
 const isDev = !app.isPackaged;
 
 function createWindow() {
@@ -9,6 +8,7 @@ function createWindow() {
     width: 1200,
     height: 800,
     show: false,
+    icon: `${__dirname}/assets/icon.png`,
     backgroundColor: "white",
     // fullscreen: true,
     webPreferences: {
@@ -33,13 +33,23 @@ if (isDev) {
 app.whenReady().then(() => {
   createWindow();
 
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
+  // app.on("activate", () => {
+  //   if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  // });
 });
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
 
-require("./ipcEvents")();
+ipcMain.on("save", (e, note) => {
+  console.log(note, "sdASD");
+  new Notification({ title: "Notifiation", body: e }).show();
+});
+
+ipcMain.on("notify", (_, message) => {
+  new Notification({ title: "Notifiation", body: message }).show();
+});
+
+// Stop error
+app.allowRendererProcessReuse = true;
