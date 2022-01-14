@@ -10,7 +10,7 @@ import App from "./App";
 import theme from "./source/theme";
 
 ReactDOM.render(
-  <SnackbarProvider maxSnack={1} preventDuplicate>
+  <SnackbarProvider maxSnack={3} preventDuplicate>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <App />
