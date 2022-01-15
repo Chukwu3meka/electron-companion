@@ -4,7 +4,7 @@
   height: 100%;
   padding: 10px;
   min-width: 400px;
-  border-left: 3px double green;
+  border-left: 3px double color(sec);
   @include flexCenter(column, initial);
   justify-content: flex-start;
   align-items: flex-start;

@@ -4,7 +4,7 @@ import NotesContainer from "./components/notes";
 import EditNoteContainer from "./components/edit";
 
 const App = () => {
-  const [id, seId] = useState(null);
+  const [id, setId] = useState(null);
   const [title, setTitle] = useState("");
   const { enqueueSnackbar } = useSnackbar();
   const [content, setContent] = useState("");
@@ -46,7 +46,7 @@ const App = () => {
     });
   };
 
-  const selectNote = (newId, action) => () => {
+  const selectNote = (newId) => () => {
     // new note added
     if (id === null && content?.trim()?.length) {
       saveNewNote({ id: notes.length + 1, title, content });
@@ -60,7 +60,7 @@ const App = () => {
 
     const { title: newTitle, content: newContent } = notes.filter((x) => x.id === newId)[0];
 
-    seId(newId);
+    setId(newId);
     setTitle(newTitle);
     setInitTitle(newTitle);
     setContent(newContent);
@@ -76,7 +76,7 @@ const App = () => {
 
   return (
     <div className="note">
-      <NotesContainer selectNote={selectNote} notes={notes} />
+      <NotesContainer selectNote={selectNote} notes={notes} activeNoteId={id} />
       <EditNoteContainer {...{ title, setTitle, content, setContent }} />
     </div>
   );

@@ -1,8 +1,8 @@
 import React from "react";
+import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
 import { styles } from ".";
-import { Button } from "@mui/material";
 
 const EditNote = ({ title, handleTitleChange, content, handleContentChange }) => (
   <div className={styles.edit}>
