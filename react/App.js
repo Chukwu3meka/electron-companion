@@ -2,26 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useSnackbar } from "notistack";
 import NotesContainer from "./components/notes";
 import EditNoteContainer from "./components/edit";
-import database from "./source/database";
 
 const App = () => {
   const [id, seId] = useState(null);
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
   const { enqueueSnackbar } = useSnackbar();
-
-  useEffect(() => {
-    // getNotes();
-    // console.log();
-    // const companion = localStorage.getItem("companion");
-    // console.log(companion);
-    // console.log(database);
-  }, []);
+  const [content, setContent] = useState("");
+  const [initTitle, setInitTitle] = useState("");
+  const [initContent, setInitContent] = useState("");
+  const [notes, setNotes] = useState(electron.notesApi.getNotes());
+  const [settings, setSettings] = useState(electron.settingsApi.getSettings());
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      if (content.length && id) {
+      if (content.length && id && content !== initContent && title !== initTitle) {
+        console.log("auto Saving");
         // saveNote({ id, title, content });
       }
     }, 60 * 1000);
@@ -31,43 +26,45 @@ const App = () => {
     };
   }, []);
 
-  const saveNote = (note) => {
-    database.notes.push({ id, title, content });
-    // { id, title, content }
+  const saveNewNote = (note) => {
+    // update notes in UI
+    setNotes([...notes, { ...note, date: new Date().toDateString() }]);
+    // save to file
+    electron.notesApi.saveNote({
+      notes: [...notes, { ...note, date: new Date().toDateString() }],
+      settings,
+    });
+  };
 
-    //   const fs = require('fs');
-
-    // fs.writeFile("./source/database", note, function (err) {
-    //   if (err) {
-    //     return console.log(err);
-    //   }
-    //   console.log("The file was saved!");
-    // });
-
-    // Or
-
-    // localStorage.setItem("companion.note1", { id, title, content });
-    // console.log()
-    electron.notesApi.saveNote({ id, title, content });
+  const modifyNote = (note) => {
+    // update notes in UI
+    setNotes([...notes.filter((x) => x.id !== note.id), note]);
+    // save to file
+    electron.notesApi.saveNote({
+      notes: [...notes.filter((x) => x.id !== note.id), note],
+      settings,
+    });
   };
 
   const selectNote = (newId, action) => () => {
     // new note added
-    if (id === null && content?.length) {
-      // update previous note
-      saveNote({ id, title, content });
-      enqueueSnackbar(`Previous note saved`, { variant: "success" });
+    if (id === null && content?.trim()?.length) {
+      saveNewNote({ id: notes.length + 1, title, content });
+      enqueueSnackbar(`New note saved`, { variant: "success" });
     }
     // existing note modified
-    if (id && (content !== database.find((x) => x.id === id).content || title !== database.find((x) => x.id === id).title)) {
-      // update previous note
+    if (id && (content?.trim() || title?.trim()) && (content !== initContent || title !== initTitle)) {
+      modifyNote({ id, title, content });
       enqueueSnackbar(`Previous note modified`, { variant: "success" });
     }
 
-    const { title: newTitle, content: newContent } = database.filter((x) => x.id === newId)[0];
+    const { title: newTitle, content: newContent } = notes.filter((x) => x.id === newId)[0];
+
     seId(newId);
-    setContent(newContent);
     setTitle(newTitle);
+    setInitTitle(newTitle);
+    setContent(newContent);
+    setInitContent(newContent);
 
     //     enqueueSnackbar(`Password Reset ${"was successfull"}`, { variant: status ? "success" : "error" });
 
@@ -79,7 +76,7 @@ const App = () => {
 
   return (
     <div className="note">
-      <NotesContainer selectNote={selectNote} notes={database.notes} />
+      <NotesContainer selectNote={selectNote} notes={notes} />
       <EditNoteContainer {...{ title, setTitle, content, setContent }} />
     </div>
   );
