@@ -15,7 +15,7 @@ const App = () => {
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      if (content.length && id && content !== initContent && title !== initTitle) {
+      if (content.length && content !== initContent && title !== initTitle) {
         console.log("auto Saving");
         // saveNote({ id, title, content });
       }
@@ -58,26 +58,26 @@ const App = () => {
       enqueueSnackbar(`Previous note modified`, { variant: "success" });
     }
 
-    const { title: newTitle, content: newContent } = notes.filter((x) => x.id === newId)[0];
+    // update active note to the one selected, if new note button is clicked return "" for title && content
+    const { title: newTitle, content: newContent } =
+      newId === "new note" ? { title: "", content: "" } : notes.filter((x) => x.id === newId)[0];
 
-    setId(newId);
+    // return null if new note button is clicked
+    setId(newId === "new note" ? null : newId);
     setTitle(newTitle);
     setInitTitle(newTitle);
     setContent(newContent);
     setInitContent(newContent);
+  };
 
-    //     enqueueSnackbar(`Password Reset ${"was successfull"}`, { variant: status ? "success" : "error" });
-
-    //     // ipcRenderer.send("save_note", "dfassdf");
-    //     // console.log("dsd");
-    //     // electron.notificationApi.sendNotification("my cus noti");
-    //     // electron.notificationApi.sendNotification("My custom message!");
+  const newNoteHandler = () => {
+    selectNote("new note")();
   };
 
   return (
     <div className="note">
       <NotesContainer selectNote={selectNote} notes={notes} activeNoteId={id} />
-      <EditNoteContainer {...{ title, setTitle, content, setContent }} />
+      <EditNoteContainer {...{ title, setTitle, content, setContent, newNoteHandler }} />
     </div>
   );
 };
