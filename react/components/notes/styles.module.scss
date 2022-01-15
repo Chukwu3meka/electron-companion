@@ -4,6 +4,10 @@
   height: 100%;
   width: 421px;
   overflow-y: auto;
+  -ms-overflow-style: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
   & > div {
     padding: 0 5px;
     @include flexCenter(row, initial);
@@ -41,4 +45,8 @@
       border-bottom: 5px solid color(sec);
     }
   }
+}
+
+.notes::-webkit-scrollbar {
+  display: none;
 }
