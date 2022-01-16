@@ -15,10 +15,9 @@ const App = () => {
   const [initContent, setInitContent] = useState("");
 
   useEffect(() => {
-    console.log("running again");
     const database = electron.getDatabase();
-    setNotes(database.notes);
     setSettings(database.settings);
+    setNotes(database.notes);
   }, []);
 
   const saveNewNote = (note) => {
@@ -66,9 +65,19 @@ const App = () => {
     }
   };
 
+  const deleteNoteHandler = (id) => () => {
+    // update notes in UI
+    setNotes([...notes.filter((x) => x.id !== id)]);
+    // save to file
+    electron.saveNote({
+      notes: [...notes.filter((x) => x.id !== id)],
+      settings,
+    });
+  };
+
   return (
     <div className="note">
-      <NotesContainer selectNote={selectNote} notes={notes} activeNoteId={id} />
+      <NotesContainer selectNote={selectNote} notes={notes} activeNoteId={id} deleteNoteHandler={deleteNoteHandler} />
       <EditNoteContainer {...{ title, setTitle, content, setContent, newNoteHandler, saveNoteHandler }} />
     </div>
   );
