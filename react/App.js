@@ -23,11 +23,13 @@ const App = () => {
   const saveNewNote = (note) => {
     // update notes in UI
     setNotes([...notes.filter((x) => x.id !== note.id), { ...note, date: new Date().toDateString() }]);
-    // save to file
-    electron.saveNote({
-      notes: [...notes.filter((x) => x.id !== note.id), { ...note, date: new Date().toDateString() }],
-      settings,
-    });
+
+    // ***************** enable file DB manipulation, by removing comment from the fllg lines
+    // // save to file
+    // electron.saveNote({
+    //   notes: [...notes.filter((x) => x.id !== note.id), { ...note, date: new Date().toDateString() }],
+    //   settings,
+    // });
   };
 
   const selectNote = (newId) => () => {
@@ -68,11 +70,12 @@ const App = () => {
   const deleteNoteHandler = (id) => () => {
     // update notes in UI
     setNotes([...notes.filter((x) => x.id !== id)]);
-    // save to file
-    electron.saveNote({
-      notes: [...notes.filter((x) => x.id !== id)],
-      settings,
-    });
+    // ***************** enable file DB manipulation, by removing comment from the fllg lines
+    // // save to file
+    // electron.saveNote({
+    //   notes: [...notes.filter((x) => x.id !== id)],
+    //   settings,
+    // });
   };
 
   return (

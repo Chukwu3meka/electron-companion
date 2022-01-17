@@ -11,3 +11,4 @@ This is a basic electron app for notes taking, with a complete CRUD function. Th
 3. In other one run: `npm start` to start Electron app
 4. In this app, i used a file as DB, a better option would be Electron Store, though for this process, i could have used Local Storage or NeDB
 5. You'll need two terminals, one to keep 'npm run watch'(to keep building the app) running, and the other 'npm start' would be to start the electron app
+6. I disabled the file db manipulation using nodejs for performance reasons, you can re-enable it in App.js or use an real DB,
